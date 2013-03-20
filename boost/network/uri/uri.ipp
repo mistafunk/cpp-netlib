@@ -35,7 +35,7 @@ namespace uri {
 namespace detail {
 namespace qi = boost::spirit::qi;
 
-static const std::string DEBUG_SENTINEL = "D";
+static const std::string DEBUG_SENTINEL;
 static const iterator_range<std::string::const_iterator> DEBUG_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(DEBUG_SENTINEL.begin(), DEBUG_SENTINEL.end());
 
 template <
