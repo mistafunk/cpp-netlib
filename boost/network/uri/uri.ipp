@@ -35,6 +35,9 @@ namespace uri {
 namespace detail {
 namespace qi = boost::spirit::qi;
 
+static std::string DEBUG_SENTINEL = "D";
+static iterator_range<std::string::const_iterator> DEBUG_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(DEBUG_SENTINEL.begin(), DEBUG_SENTINEL.end());
+
 template <
     class String
     >
@@ -45,12 +48,8 @@ struct uri_grammar : qi::grammar<
     typedef String string_type;
     typedef typename String::const_iterator const_iterator;
 
-	std::string DEBUG_SENTINEL;
-	iterator_range<const_iterator> DEBUG_ITERATOR_RANGE;
 
     uri_grammar() : uri_grammar::base_type(start, "uri") {
-    	DEBUG_SENTINEL = "D";
-		DEBUG_ITERATOR_RANGE = iterator_range<const_iterator>(DEBUG_SENTINEL.begin(), DEBUG_SENTINEL.end());
     
     
         // gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@"
