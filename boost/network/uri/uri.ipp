@@ -35,8 +35,8 @@ namespace uri {
 namespace detail {
 namespace qi = boost::spirit::qi;
 
-static const std::string DEBUG_SENTINEL;
-static const iterator_range<std::string::const_iterator> DEBUG_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(DEBUG_SENTINEL.begin(), DEBUG_SENTINEL.end());
+static const std::string EMPTY_SENTINEL;
+static const iterator_range<std::string::const_iterator> EMPTY_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(EMPTY_SENTINEL.begin(), EMPTY_SENTINEL.end());
 
 template <
     class String
@@ -48,10 +48,7 @@ struct uri_grammar : qi::grammar<
     typedef String string_type;
     typedef typename String::const_iterator const_iterator;
 
-
     uri_grammar() : uri_grammar::base_type(start, "uri") {
-    
-    
         // gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@"
         gen_delims %= qi::char_(":/?#[]@");
         // sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
@@ -182,9 +179,9 @@ struct uri_grammar : qi::grammar<
                 )
             |
             (
-                    qi::attr(DEBUG_ITERATOR_RANGE)
-                >>  qi::attr(DEBUG_ITERATOR_RANGE)
-                >>  qi::attr(DEBUG_ITERATOR_RANGE)
+                    qi::attr(EMPTY_ITERATOR_RANGE)
+                >>  qi::attr(EMPTY_ITERATOR_RANGE)
+                >>  qi::attr(EMPTY_ITERATOR_RANGE)
                 >>  (
                     path_absolute
                     |   path_rootless
