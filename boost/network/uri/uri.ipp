@@ -45,7 +45,14 @@ struct uri_grammar : qi::grammar<
     typedef String string_type;
     typedef typename String::const_iterator const_iterator;
 
+	std::string DEBUG_SENTINEL;
+	iterator_range<const_iterator> DEBUG_ITERATOR_RANGE;
+
     uri_grammar() : uri_grammar::base_type(start, "uri") {
+    	DEBUG_SENTINEL = "D";
+		DEBUG_ITERATOR_RANGE = iterator_range<const_iterator>(DEBUG_SENTINEL.begin(), DEBUG_SENTINEL.end());
+    
+    
         // gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@"
         gen_delims %= qi::char_(":/?#[]@");
         // sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
@@ -176,9 +183,9 @@ struct uri_grammar : qi::grammar<
                 )
             |
             (
-                    qi::attr(iterator_range<const_iterator>())
-                >>  qi::attr(iterator_range<const_iterator>())
-                >>  qi::attr(iterator_range<const_iterator>())
+                    qi::attr(DEBUG_ITERATOR_RANGE)
+                >>  qi::attr(DEBUG_ITERATOR_RANGE)
+                >>  qi::attr(DEBUG_ITERATOR_RANGE)
                 >>  (
                     path_absolute
                     |   path_rootless
@@ -202,7 +209,7 @@ struct uri_grammar : qi::grammar<
 
     qi::rule<const_iterator, string_type()>
     segment, segment_nz, segment_nz_nc;
-    qi::rule<const_iterator, iterator_range<const_iterator>()>
+    qi::rule<const_iterator, DEBUG_ITERATOR_RANGE>
     path_abempty, path_absolute, path_rootless, path_empty;
 
     qi::rule<const_iterator, string_type()>
@@ -211,10 +218,10 @@ struct uri_grammar : qi::grammar<
     qi::rule<const_iterator, string_type()>
     h16, ls32;
 
-    qi::rule<const_iterator, iterator_range<const_iterator>()>
+    qi::rule<const_iterator, DEBUG_ITERATOR_RANGE>
     host, port;
 
-    qi::rule<const_iterator, iterator_range<const_iterator>()>
+    qi::rule<const_iterator, DEBUG_ITERATOR_RANGE>
     scheme, user_info, query, fragment;
 
     qi::rule<const_iterator, hierarchical_part<const_iterator>()>
