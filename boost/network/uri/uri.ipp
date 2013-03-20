@@ -35,8 +35,8 @@ namespace uri {
 namespace detail {
 namespace qi = boost::spirit::qi;
 
-static std::string DEBUG_SENTINEL = "D";
-static iterator_range<std::string::const_iterator> DEBUG_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(DEBUG_SENTINEL.begin(), DEBUG_SENTINEL.end());
+static const std::string DEBUG_SENTINEL = "D";
+static const iterator_range<std::string::const_iterator> DEBUG_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(DEBUG_SENTINEL.begin(), DEBUG_SENTINEL.end());
 
 template <
     class String
@@ -208,7 +208,7 @@ struct uri_grammar : qi::grammar<
 
     qi::rule<const_iterator, string_type()>
     segment, segment_nz, segment_nz_nc;
-    qi::rule<const_iterator, DEBUG_ITERATOR_RANGE>
+    qi::rule<const_iterator, iterator_range<const_iterator>()>
     path_abempty, path_absolute, path_rootless, path_empty;
 
     qi::rule<const_iterator, string_type()>
@@ -217,10 +217,10 @@ struct uri_grammar : qi::grammar<
     qi::rule<const_iterator, string_type()>
     h16, ls32;
 
-    qi::rule<const_iterator, DEBUG_ITERATOR_RANGE>
+    qi::rule<const_iterator, iterator_range<const_iterator>()>
     host, port;
 
-    qi::rule<const_iterator, DEBUG_ITERATOR_RANGE>
+    qi::rule<const_iterator, iterator_range<const_iterator>()>
     scheme, user_info, query, fragment;
 
     qi::rule<const_iterator, hierarchical_part<const_iterator>()>
