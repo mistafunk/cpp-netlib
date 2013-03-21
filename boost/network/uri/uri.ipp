@@ -35,8 +35,8 @@ namespace uri {
 namespace detail {
 namespace qi = boost::spirit::qi;
 
-static const std::string EMPTY_SENTINEL;
-static const iterator_range<std::string::const_iterator> EMPTY_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(EMPTY_SENTINEL.begin(), EMPTY_SENTINEL.end());
+//static const std::string EMPTY_SENTINEL;
+//static const iterator_range<std::string::const_iterator> EMPTY_ITERATOR_RANGE = iterator_range<std::string::const_iterator>(EMPTY_SENTINEL.begin(), EMPTY_SENTINEL.end());
 
 template <
     class String
@@ -179,9 +179,9 @@ struct uri_grammar : qi::grammar<
                 )
             |
             (
-                    qi::attr(EMPTY_ITERATOR_RANGE)
-                >>  qi::attr(EMPTY_ITERATOR_RANGE)
-                >>  qi::attr(EMPTY_ITERATOR_RANGE)
+                    qi::attr(optional<iterator_range<const_iterator> >())
+                >>  qi::attr(optional<iterator_range<const_iterator> >())
+                >>  qi::attr(optional<iterator_range<const_iterator> >())
                 >>  (
                     path_absolute
                     |   path_rootless
