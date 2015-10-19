@@ -112,19 +112,23 @@ class BOOST_URI_DECL uri {
 // this workaround is needed to avoid running into the "incompatible string iterator" assertion
 // triggered by the default-constructed string iterators employed by cpp-netlib (see uri.ipp qi::rule declarations)
 #if defined(_MSC_VER) && defined(_DEBUG)
-#	define CATCH_EMPTY_ITERATOR_RANGE if (range.begin()._Getcont() == 0 || range.end()._Getcont() == 0) { return string_type(); }
+#    define CATCH_EMPTY_ITERATOR_RANGE if (range.begin()._Getcont() == 0 || range.end()._Getcont() == 0) { return string_type(); }
+#elif defined(_LIBCPP_VERSION)
+#    define CATCH_EMPTY_ITERATOR_RANGE if (range.begin().base() == nullptr || range.end().base() == nullptr) return string_type();
 #else
-#	define CATCH_EMPTY_ITERATOR_RANGE
+#    define CATCH_EMPTY_ITERATOR_RANGE
 #endif
 
   string_type scheme() const {
+    if (!uri_parts_.scheme) return string_type();
     const_range_type range = scheme_range();
     CATCH_EMPTY_ITERATOR_RANGE
-	return range ? string_type(boost::begin(range), boost::end(range))
+    return range ? string_type(boost::begin(range), boost::end(range))
                  : string_type();
   }
 
   string_type user_info() const {
+    if (!uri_parts_.hier_part.user_info) return string_type();
     const_range_type range = user_info_range();
     CATCH_EMPTY_ITERATOR_RANGE
     return range ? string_type(boost::begin(range), boost::end(range))
@@ -132,6 +136,7 @@ class BOOST_URI_DECL uri {
   }
 
   string_type host() const {
+    if (!uri_parts_.hier_part.host) return string_type();
     const_range_type range = host_range();
     CATCH_EMPTY_ITERATOR_RANGE
     return range ? string_type(boost::begin(range), boost::end(range))
@@ -139,6 +144,7 @@ class BOOST_URI_DECL uri {
   }
 
   string_type port() const {
+    if (!uri_parts_.hier_part.port) return string_type();
     const_range_type range = port_range();
     CATCH_EMPTY_ITERATOR_RANGE
     return range ? string_type(boost::begin(range), boost::end(range))
@@ -146,6 +152,7 @@ class BOOST_URI_DECL uri {
   }
 
   string_type path() const {
+    if (!uri_parts_.hier_part.path) return string_type();
     const_range_type range = path_range();
     CATCH_EMPTY_ITERATOR_RANGE
     return range ? string_type(boost::begin(range), boost::end(range))
@@ -153,6 +160,7 @@ class BOOST_URI_DECL uri {
   }
 
   string_type query() const {
+    if (!uri_parts_.query) return string_type();
     const_range_type range = query_range();
     CATCH_EMPTY_ITERATOR_RANGE
     return range ? string_type(boost::begin(range), boost::end(range))
@@ -160,6 +168,7 @@ class BOOST_URI_DECL uri {
   }
 
   string_type fragment() const {
+    if (!uri_parts_.fragment) return string_type();
     const_range_type range = fragment_range();
     CATCH_EMPTY_ITERATOR_RANGE
     return range ? string_type(boost::begin(range), boost::end(range))
